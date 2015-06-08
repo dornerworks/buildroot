@@ -55,7 +55,6 @@ export PATH=$PATH:/usr/local/bin
 /xenboot.sh
 
 # telnetd
-dropbear -B
 
 # Last to give some time for the link to come up
 # Only set it up if not XEN

@@ -55,7 +55,6 @@ export PATH=$PATH:/usr/local/bin
 /xenboot.sh
 
 # telnetd
-#dropbear -B
 
 echo "Started Xilinx Dom1"
 
