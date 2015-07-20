@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Start the network....
+#
+
+# Debian ifupdown needs the /run/network lock directory
+mkdir -p /run/network
+
+case "$1" in
+  start)
+ 	echo "Starting network..."
+	ip link set up dev lo
+	ip link set up dev eth0
+	if test -f /proc/xen/capabilities && \
+	    grep -q "control_d" /proc/xen/capabilities ; then
+		brctl addbr xenbr0
+		brctl addif xenbr0 eth0
+		/sbin/udhcpc -i xenbr0 -b
+	else
+		/sbin/udhcpc -i eth0 -b
+	fi
+
+	;;
+  stop)
+	echo -n "Stopping network..."
+	ip link set down dev lo
+	ip link set down dev eth0
+	if test -f /proc/xen/capabilities && \
+	    grep -q "control_d" /proc/xen/capabilities ; then
+		ip link set xenbr0 down
+		brctl delbr xenbr0
+	fi
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

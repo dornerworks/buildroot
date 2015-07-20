@@ -15,8 +15,8 @@ xenstore-write "/local/domain/0/domid" 0
 
 xenconsoled
 
-brctl addbr xenbr0
-brctl addif xenbr0 eth0
-/sbin/udhcpc -i xenbr0 -b
+#brctl addbr xenbr0
+#brctl addif xenbr0 eth0
+#/sbin/udhcpc -i xenbr0 -b
 
 export LIBXL_DEBUG_DUMP_DTB=/tmp/dbg.dtb
